@@ -13,7 +13,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "includes/GLDebugMessageCallback.h"
+#include "Includes/GLDebugMessageCallback.h"
 
 #include "MyApp.h"
 
@@ -61,17 +61,14 @@ int main( int argc, char* args[] )
 	// mélységi puffer hány bites legyen
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE,          24);
 
-	// antialiasing - ha kell
-	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
-	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES,  2);
 
 	// hozzuk létre az ablakunkat
 	SDL_Window *win = 0;
 	win = SDL_CreateWindow( "Hello SDL&OpenGL!",		// az ablak fejléce
 							100,						// az ablak bal-felső sarkának kezdeti X koordinátája
 							100,						// az ablak bal-felső sarkának kezdeti Y koordinátája
-							640,						// ablak szélessége
-							480,						// és magassága
+							2600,						// ablak szélessége
+							1000,						// és magassága
 							SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);			// megjelenítési tulajdonságok
 
 
@@ -148,7 +145,7 @@ int main( int argc, char* args[] )
 
 		// alkalmazas példánya
 		CMyApp app;
-		if (!app.Init())
+		if (!app.init())
 		{
 			SDL_GL_DeleteContext(context);
 			SDL_DestroyWindow(win);
@@ -157,7 +154,7 @@ int main( int argc, char* args[] )
 		}
 		int w, h;
 		SDL_GetWindowSize(win, &w, &h);
-		app.Resize(w, h);
+		app.resizeWindow(w, h);
 
 		while (!quit)
 		{
@@ -176,32 +173,32 @@ int main( int argc, char* args[] )
 					if (ev.key.keysym.sym == SDLK_ESCAPE)
 						quit = true;
 					if (!is_keyboard_captured)
-						app.KeyboardDown(ev.key);
+						app.keyboardDown(ev.key);
 					break;
 				case SDL_KEYUP:
 					if (!is_keyboard_captured)
-						app.KeyboardUp(ev.key);
+						app.keyboardUp(ev.key);
 					break;
 				case SDL_MOUSEBUTTONDOWN:
 					if (!is_mouse_captured)
-						app.MouseDown(ev.button);
+						app.mouseDown(ev.button);
 					break;
 				case SDL_MOUSEBUTTONUP:
 					if (!is_mouse_captured)
-						app.MouseUp(ev.button);
+						app.mouseUp(ev.button);
 					break;
 				case SDL_MOUSEWHEEL:
 					if (!is_mouse_captured)
-						app.MouseWheel(ev.wheel);
+						app.mouseWheel(ev.wheel);
 					break;
 				case SDL_MOUSEMOTION:
 					if (!is_mouse_captured)
-						app.MouseMove(ev.motion);
+						app.mouseMove(ev.motion);
 					break;
 				case SDL_WINDOWEVENT:
 					if (ev.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 					{
-						app.Resize(ev.window.data1, ev.window.data2);
+						app.resizeWindow(ev.window.data1, ev.window.data2);
 					}
 					break;
 				}
@@ -209,15 +206,15 @@ int main( int argc, char* args[] )
 			}
 			ImGui_ImplSdlGL3_NewFrame(win); //Ezután lehet imgui parancsokat hívni, egészen az ImGui::Render()-ig
 
-			app.Update();
-			app.Render();
+			app.update();
+			app.render();
 			ImGui::Render();
 
 			SDL_GL_SwapWindow(win);
 		}
 
 		// takarítson el maga után az objektumunk
-		app.Clean();
+		app.cleanUp();
 	}	// így az app destruktora még úgy fut le, hogy él a contextünk => a GPU erőforrásokat befoglaló osztályok destruktorai is itt futnak le
 
 	//

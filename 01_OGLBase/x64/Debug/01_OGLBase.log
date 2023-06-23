@@ -1,0 +1,5 @@
+﻿  main.cpp
+C:\Users\papai\OneDrive\Desktop\Legoo\01_OGLBase\01_OGLBase\MyApp.h(266): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\papai\OneDrive\Desktop\Legoo\01_OGLBase\01_OGLBase\MyApp.h(268): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\papai\OneDrive\Desktop\Legoo\01_OGLBase\01_OGLBase\MyApp.h(269): warning C4305: 'initializing': truncation from 'double' to 'float'
+  01_OGLBase.vcxproj -> C:\Users\papai\OneDrive\Desktop\Legoo\01_OGLBase\x64\Debug\01_OGLBase.exe
